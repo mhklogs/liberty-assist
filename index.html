@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LibertyAssist | US Legal & Personal AI Assistant</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Your accessible, all-in-one legal, financial, and personal AI assistant designed specifically for US residents of all ages. Generate legal documents, plan budgets, and find civic resources." />
+    <meta name="keywords" content="US legal assistant, personal assistant, document generator, budget planner, elder care, civic help, US citizen services" />
+    <meta name="author" content="LibertyAssist Team" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- PWA Configurations -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1565C0" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <!-- Global Runtime Error Catcher -->
+    <script>
+      window.addEventListener('error', function(e) {
+        const div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.bottom = '20px';
+        div.style.left = '20px';
+        div.style.backgroundColor = '#D32F2F';
+        div.style.color = '#FFFFFF';
+        div.style.padding = '20px';
+        div.style.borderRadius = '8px';
+        div.style.zIndex = '100000';
+        div.style.maxWidth = '500px';
+        div.style.fontSize = '13px';
+        div.style.fontFamily = 'monospace';
+        div.style.boxShadow = '0 10px 15px -3px rgba(0,0,0,0.3)';
+        div.style.borderLeft = '6px solid #B71C1C';
+        div.innerHTML = '<h4 style="margin:0 0 8px 0;font-size:15px;font-weight:bold;">🚨 Client-Side Runtime Crash Detected</h4>' +
+          '<strong>Message:</strong> ' + e.message + '<br/><br/>' +
+          '<strong>File:</strong> ' + e.filename + '<br/>' +
+          '<strong>Line:</strong> ' + e.lineno + ':' + e.colno + '<br/><br/>' +
+          '<button onclick="this.parentElement.remove()" style="background:#B71C1C;color:#FFF;border:none;padding:4px 8px;border-radius:4px;cursor:pointer;font-weight:bold;">Dismiss</button>';
+        document.body.appendChild(div);
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+            .catch(err => console.error('PWA Service Worker registration failed:', err));
+        });
+      }
+    </script>
+  </body>
+</html>
+

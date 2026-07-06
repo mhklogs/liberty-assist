@@ -1,0 +1,24 @@
+{
+  "name": "LibertyAssist | US Legal & Personal Assistant",
+  "short_name": "LibertyAssist",
+  "description": "Your accessible, all-in-one legal, financial, and personal AI assistant designed specifically for US residents of all ages.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1565C0",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
