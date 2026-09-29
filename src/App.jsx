@@ -213,7 +213,7 @@ export default function App() {
     try {
       const activeClient = getSupabaseClient() || mockSupabase;
       if (authMode === 'signup') {
-        const { data, error } = await activeClient.auth.signUp({
+        const { error } = await activeClient.auth.signUp({
           email: authEmail,
           password: authPassword,
           options: {
@@ -229,7 +229,7 @@ export default function App() {
         alert("Account created successfully!");
         checkActiveSession();
       } else {
-        const { data, error } = await activeClient.auth.signInWithPassword({
+        const { error } = await activeClient.auth.signInWithPassword({
           email: authEmail,
           password: authPassword
         });
@@ -266,10 +266,8 @@ export default function App() {
 
   // Vision / NanoBanan state
   const [visionImage, setVisionImage] = useState(null);
-  const [visionOutput, setVisionOutput] = useState('');
   const [visionLoading, setVisionLoading] = useState(false);
   const [imagePrompt, setImagePrompt] = useState('A seal of the United States for an official Will');
-  const [generatedImgUrl, setGeneratedImgUrl] = useState('');
   const [imageGenerating, setImageGenerating] = useState(false);
 
   // Web Speech recognition hook initialization
@@ -317,7 +315,7 @@ export default function App() {
   const speakText = (text) => {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
-      const cleanText = text.replace(/[*#`_\-]/g, '');
+      const cleanText = text.replace(/[*#`_-]/g, '');
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.rate = 0.95;
       const voices = window.speechSynthesis.getVoices();
@@ -449,7 +447,7 @@ export default function App() {
 
       if (error) throw error;
       loadLearnings();
-    } catch (err) {
+    } catch {
       alert("Failed to delete memory.");
     }
   };
@@ -585,7 +583,7 @@ export default function App() {
         const dd = String(tomorrow.getDate()).padStart(2, '0');
         dateStr = `${yyyy}${mm}${dd}/${yyyy}${mm}${dd}`;
       }
-    } catch (e) {
+    } catch {
       dateStr = "TEMPLATE";
     }
     
@@ -639,7 +637,7 @@ export default function App() {
     
     return lines.map((line, idx) => {
       // List parsing
-      const listMatch = line.match(/^(\s*)[*\-]\s+(.*)$/);
+      const listMatch = line.match(/^(\s*)[*-]\s+(.*)$/);
       if (listMatch) {
         return (
           <li key={idx} style={{ marginLeft: '1.5rem', marginBottom: '0.35rem', listStyleType: 'disc' }}>
@@ -721,7 +719,7 @@ export default function App() {
         } else {
           addVisionResultToChat("Failed to scan document with Gemini Vision.");
         }
-      } catch (err) {
+      } catch {
         addVisionResultToChat("Failed to call Vision API. Fallback to local OCR simulation.");
       } finally {
         setVisionLoading(false);
@@ -854,8 +852,6 @@ export default function App() {
   const getRoleTailoredResponse = (query) => {
     const q = query.toLowerCase();
     const role = userProfile.role;
-    const stateName = US_STATES.find(s => s.code === userProfile.state)?.name || "your state";
-    
     let memoryContext = "";
     if (learnings.length > 0) {
       memoryContext = "### 🧠 Active Memory Recall\n";
@@ -962,7 +958,7 @@ export default function App() {
           } else {
             responseText = getRoleTailoredResponse(userText);
           }
-        } catch (err) {
+        } catch {
           responseText = "Failed to query Gemini 2.5 Flash. Switched to local mode:\n\n" + getRoleTailoredResponse(userText);
         }
       } else {
@@ -1003,7 +999,7 @@ export default function App() {
     }
 
     try {
-      const { data, error } = await db.from('saved_documents').insert({
+      const { error } = await db.from('saved_documents').insert({
         user_id: sessionUser.id,
         doc_type: selectedDocType,
         doc_content: generatedDoc
@@ -1028,15 +1024,13 @@ export default function App() {
       if (error) throw error;
       alert("Document deleted.");
       loadUserData();
-    } catch (err) {
+    } catch {
       alert("Failed to delete document.");
     }
   };
 
   // Document templates
   const generateLegalDocument = () => {
-    const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    const stateName = US_STATES.find(s => s.code === userProfile.state)?.name || "the State of " + userProfile.state;
     let text = "";
 
     if (selectedDocType === 'will') {
